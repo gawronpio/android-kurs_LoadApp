@@ -2,8 +2,33 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.LoadApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/secondary</item>
+
+        <item name="android:statusBarColor">@color/primary</item>
     </style>
 
-    <style name="Theme.LoadApp" parent="Base.Theme.LoadApp" />
+    <style name="Theme.LoadApp" parent="Base.Theme.LoadApp">
+    </style>
+
+    <style name="TextAppearance.AppName" parent="TextAppearance.Material3.HeadlineSmall">
+<!--        <item name="android:textSize">@dimen/text_size</item>-->
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CustomRadioButtonStyle" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:layout_marginBottom">@dimen/margin_small</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/body_text</item>
+    </style>
+    
+    <style name="TextAppearance.Title" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/title</item>
+    </style>
+    <style name="TextAppearance.Body" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/body_text</item>
+    </style>
 </resources>
