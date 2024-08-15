@@ -38,18 +38,17 @@
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="409dp"
-            android:layout_height="529dp"
-            app:layout_constraintBottom_toTopOf=""
+            android:layout_height="0dp"
+            android:padding="@dimen/margin_medium"
+            app:layout_constraintBottom_toTopOf="@id/downloadButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/frameLayout">
-            <!--            TODO dodać bottom to top of button-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_medium">
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/radioButton"
@@ -74,14 +73,19 @@
             </LinearLayout>
         </ScrollView>
 
-        <Button
-            android:id="@+id/button"
+        <com.example.loadapp.ProgressButton
+            android:id="@+id/downloadButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:text="@string/download"
+            app:text="@string/download"
+            app:textActive="@string/loading"
+            app:backgroundColor="@color/primary"
+            app:activeColor="@color/secondary"
+            app:textColor="@color/white"
+            app:textActiveColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
