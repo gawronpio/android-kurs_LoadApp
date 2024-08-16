@@ -5,7 +5,9 @@
     tools:context=".MainFragment">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.loadapp.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/frameLayout">
 
-            <LinearLayout
+            <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -55,22 +57,25 @@
                     style="@style/CustomRadioButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/link1_name" />
+                    android:text="@string/link1_name"
+                    android:onCheckedChanged="@{(view, checked) -> checked ? viewModel.onSelected(0) : null}" />
 
                 <RadioButton
                     android:id="@+id/radioButton2"
                     style="@style/CustomRadioButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/link2_name" />
+                    android:text="@string/link2_name"
+                    android:onCheckedChanged="@{(view, checked) -> checked ? viewModel.onSelected(1) : null}" />
 
                 <RadioButton
                     android:id="@+id/radioButton3"
                     style="@style/CustomRadioButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/link3_name" />
-            </LinearLayout>
+                    android:text="@string/link3_name"
+                    android:onCheckedChanged="@{(view, checked) -> checked ? viewModel.onSelected(2) : null}" />
+            </RadioGroup>
         </ScrollView>
 
         <com.example.loadapp.ProgressButton
@@ -80,6 +85,7 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_medium"
+            android:onClick="@{() -> viewModel.onDownload()}"
             app:text="@string/download"
             app:textActive="@string/loading"
             app:backgroundColor="@color/primary"

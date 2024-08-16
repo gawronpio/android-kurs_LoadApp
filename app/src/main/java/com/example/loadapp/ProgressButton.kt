@@ -6,7 +6,6 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.withStyledAttributes
 
@@ -49,16 +48,6 @@ class ProgressButton @JvmOverloads constructor(
         }
     }
 
-    override fun performClick(): Boolean {
-        if(super.performClick()) return true
-
-        inProgress = true
-
-        invalidate()
-
-        return true
-    }
-
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         width = w.toFloat()
         height = h.toFloat()
@@ -91,7 +80,6 @@ class ProgressButton @JvmOverloads constructor(
         canvas.drawText(label, width / 2, y, paint)
 
         paint.getTextBounds(label, 0, label.length, textRect)
-        Log.d("ProgressButton", "left, right, width: ${textRect.left}, ${textRect.right}, ${textRect.width()}")
         val circleX = width / 2 + textRect.width() / 2 + circleRadius + 32
         paint.color = circleColor
         canvas.drawArc(
@@ -104,5 +92,16 @@ class ProgressButton @JvmOverloads constructor(
             true,
             paint
         )
+    }
+
+    fun setProgress(progress: Float) {
+        if(progress >= 1f) {
+            inProgress = false
+            this.progress = 0f
+        } else {
+            inProgress = true
+            this.progress = progress
+        }
+        invalidate()
     }
 }
