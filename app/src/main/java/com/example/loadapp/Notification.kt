@@ -8,7 +8,7 @@ import androidx.core.app.NotificationCompat
 
 private const val NOTIFICATION_ID = 0
 
-fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
+fun NotificationManager.sendNotification(data: Map<String, Any>, applicationContext: Context) {
     val contentIntent = Intent(applicationContext, MainActivity::class.java)
     val contentPendingIntent = PendingIntent.getActivity(
         applicationContext,
@@ -17,8 +17,15 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
 
-    val detailIntent = Intent(applicationContext, DetailFragment::class.java)
-    val detailPendingIntent: PendingIntent = PendingIntent.getBroadcast(
+    val detailIntent = Intent(applicationContext, DetailActivity::class.java)
+    for ((key, value) in data) {
+        when(value) {
+            is String -> detailIntent.putExtra(key, value)
+            is Boolean -> detailIntent.putExtra(key, value)
+            else -> throw IllegalArgumentException("Unsupported type in the data")
+        }
+    }
+    val detailPendingIntent = PendingIntent.getActivity(
         applicationContext,
         0,
         detailIntent,
@@ -30,7 +37,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         applicationContext.getString(R.string.notification_channel_id)
     )
         .setContentTitle(applicationContext.getString(R.string.app_name))
-        .setContentText(messageBody)
+        .setContentText(data["name"].toString())
         .setContentIntent(contentPendingIntent)
         .setSmallIcon(R.drawable.ic_launcher_foreground)
         .setAutoCancel(true)

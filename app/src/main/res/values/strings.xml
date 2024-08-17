@@ -2,6 +2,9 @@
     <string name="app_name">Load App</string>
 
     <string name="app_description">Download files from Internet</string>
+    <string name="detail_activity">Detail Activity</string>
+
+    <string name="ok">OK</string>
 
     <string name="link1_name">Glide - Image Loading Library by BumpTech</string>
     <string name="link1_url">https://github.com/bumptech/glide</string>
@@ -13,11 +16,11 @@
     <string name="select_file_hint">Please select the file to download</string>
     <string name="download">Download</string>
     <string name="loading">We are loading</string>
-    
+
     <string name="file_name">File name:</string>
     <string name="status">Status:</string>
     <string name="success">Success</string>
-    <string name="failure">Failure</string>
+    <string name="failed">Failed</string>
 
     <string name="download_image_desc">Download image</string>
 
@@ -25,4 +28,5 @@
     <string name="notification_channel_id">download_channel</string>
     <string name="notification_channel_name">Download channel</string>
     <string name="download_completed">%1$s! completed</string>
+    <string name="download_failed">%1$s! failed</string>
 </resources>

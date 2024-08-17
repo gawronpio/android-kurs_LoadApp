@@ -5,7 +5,9 @@
     tools:context=".MainActivity">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.loadapp.MainViewModel" />
     </data>
 
     <LinearLayout
@@ -32,16 +34,94 @@
                     android:text="@string/app_name"
                     style="@style/TextAppearance.AppName"/>
             </androidx.appcompat.widget.Toolbar>
-
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/navHostFragment"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation" />
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/download_image_desc"
+                app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_cloud_download_24" />
+
+            <ScrollView
+                android:id="@+id/scrollView2"
+                android:layout_width="409dp"
+                android:layout_height="0dp"
+                android:padding="@dimen/margin_medium"
+                app:layout_constraintBottom_toTopOf="@id/downloadButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/frameLayout">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radioButton"
+                        style="@style/CustomRadioButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/link1_name"
+                        android:onCheckedChanged="@{(view, checked) -> checked ? viewModel.onSelected(0) : null}" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton2"
+                        style="@style/CustomRadioButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/link2_name"
+                        android:onCheckedChanged="@{(view, checked) -> checked ? viewModel.onSelected(1) : null}" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton3"
+                        style="@style/CustomRadioButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/link3_name"
+                        android:onCheckedChanged="@{(view, checked) -> checked ? viewModel.onSelected(2) : null}" />
+                </RadioGroup>
+            </ScrollView>
+
+            <com.example.loadapp.ProgressButton
+                android:id="@+id/downloadButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:onClick="@{() -> viewModel.onDownload()}"
+                app:text="@string/download"
+                app:textActive="@string/loading"
+                app:backgroundColor="@color/primary"
+                app:activeColor="@color/secondary"
+                app:textColor="@color/white"
+                app:textActiveColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </layout>

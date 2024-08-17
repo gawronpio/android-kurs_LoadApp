@@ -71,18 +71,47 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                 if (id == downloadID) {
-                    showNotification(name)
-                    context?.unregisterReceiver(this)
+                    val downloadManager = context?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                    val query = DownloadManager.Query().setFilterById(id)
+                    val cursor = downloadManager.query(query)
+
+                    if (cursor.moveToFirst()) {
+                        val statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+                        if (statusIndex != -1) {
+                            val status = cursor.getInt(statusIndex)
+                            if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                                showNotification(
+                                    mapOf(
+                                        "name" to getApplication<Application>().getString(
+                                            R.string.download_completed,
+                                            name),
+                                        "status" to true
+                                    )
+                                )
+                            } else {
+                                showNotification(
+                                    mapOf(
+                                        "name" to getApplication<Application>().getString(
+                                            R.string.download_failed,
+                                            name),
+                                        "status" to false
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    cursor.close()
+                    context.unregisterReceiver(this)
                 }
             }
         }
         getApplication<Application>().registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
-    fun showNotification(name: String) {
+    fun showNotification(data: Map<String, Any>) {
         val notificationManager = getApplication<Application>().getSystemService(NotificationManager::class.java)
         notificationManager?.sendNotification(
-            getApplication<Application>().getString(R.string.download_completed, name),
+            data,
             getApplication()
         )
     }
