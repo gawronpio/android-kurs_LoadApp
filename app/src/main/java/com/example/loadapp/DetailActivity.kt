@@ -42,5 +42,9 @@ class DetailActivity : AppCompatActivity() {
             resources.getString(R.string.failed)
         }
         binding.status.text = status
+
+        binding.motionLayout.post {
+            binding.motionLayout.transitionToEnd()
+        }
     }
 }
