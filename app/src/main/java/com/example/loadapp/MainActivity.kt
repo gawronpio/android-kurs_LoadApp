@@ -1,6 +1,7 @@
 package com.example.loadapp
 
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.pm.PackageManager
@@ -56,7 +57,10 @@ class MainActivity : AppCompatActivity() {
             if (downloadStarted) {
                 val animator = ObjectAnimator.ofFloat(binding.downloadButton, "progress", 0f, 1f)
                 animator.duration = 1000
+                animator.repeatMode = ValueAnimator.RESTART
+                animator.repeatCount = ValueAnimator.INFINITE
                 animator.start()
+                viewModel.animator = animator
             }
         }
     }

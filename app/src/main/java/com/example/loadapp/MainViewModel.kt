@@ -1,5 +1,6 @@
 package com.example.loadapp
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Application
 import android.app.DownloadManager
@@ -22,6 +23,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private var selectedName = ""
     private lateinit var downloadManager: DownloadManager
     private var downloadID: Long = 0
+
+    var animator: ObjectAnimator? = null
 
     private val _downloadStarted = MutableLiveData<Boolean>(false)
     val downloadStarted: LiveData<Boolean>
@@ -100,6 +103,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                                         "status" to false
                                     )
                                 )
+                            }
+                            if(animator != null) {
+                                animator?.end()
+                                animator = null
                             }
                         }
                     }
