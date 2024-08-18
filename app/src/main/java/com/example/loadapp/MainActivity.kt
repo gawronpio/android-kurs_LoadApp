@@ -3,10 +3,15 @@ package com.example.loadapp
 import android.animation.ObjectAnimator
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
@@ -31,6 +36,17 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val notificationPermissionGranted = ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+            if (!notificationPermissionGranted) {
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), REQUEST_CODE_NOTIFICATIONS
+                )
+            }
+        }
+
         createChannel(
             getString(R.string.notification_channel_id),
             getString(R.string.notification_channel_name)
@@ -41,6 +57,23 @@ class MainActivity : AppCompatActivity() {
                 val animator = ObjectAnimator.ofFloat(binding.downloadButton, "progress", 0f, 1f)
                 animator.duration = 1000
                 animator.start()
+            }
+        }
+    }
+
+    companion object {
+        private const val REQUEST_CODE_NOTIFICATIONS = 1
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_NOTIFICATIONS) {
+            if((grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(this, getString(R.string.notifications_prohibited), Toast.LENGTH_SHORT).show()
             }
         }
     }

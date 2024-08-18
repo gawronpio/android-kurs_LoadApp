@@ -27,6 +27,7 @@
     <string name="check_status">Check the status</string>
     <string name="notification_channel_id">download_channel</string>
     <string name="notification_channel_name">Download channel</string>
+    <string name="notifications_prohibited">Notifications have been prohibited by the user</string>
     <string name="download_completed">%1$s! completed</string>
     <string name="download_failed">%1$s! failed</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.loadapp
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.app.DownloadManager
 import android.app.NotificationManager
@@ -8,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
+import android.os.Build
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.DOWNLOAD_SERVICE
 import androidx.lifecycle.AndroidViewModel
@@ -66,6 +68,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         registerDownloadCompleteReceiver(name)
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     private fun registerDownloadCompleteReceiver(name: String) {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -105,7 +108,14 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                 }
             }
         }
-        getApplication<Application>().registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            getApplication<Application>().registerReceiver(
+                receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        } else {
+            getApplication<Application>().registerReceiver(
+                receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+                Context.RECEIVER_EXPORTED)
+        }
     }
 
     fun showNotification(data: Map<String, Any>) {
